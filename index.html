@@ -2,33 +2,40 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gelatte</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f2ebe5;
-      color: #2f1d14;
+      background: linear-gradient(to bottom, #d6bfa9, #bca18b);
+      color: #1e1a17;
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
     }
 
     .container {
-      max-width: 650px;
+      max-width: 700px;
       margin: auto;
       padding: 40px 20px;
+      animation: fadeIn 1s ease-in-out;
     }
 
     .box {
-      background: #fffaf6;
+      background: #fff8f0;
       padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .box:hover {
+      transform: scale(1.02);
     }
 
     h1 {
-      font-size: 2.5em;
-      color: #4a2d1e;
+      font-size: 2.8em;
+      color: #3b2a20;
       margin-bottom: 10px;
       text-align: center;
     }
@@ -37,12 +44,12 @@
       font-style: italic;
       text-align: center;
       margin-bottom: 30px;
-      color: #7c5a4a;
+      color: #6e4b35;
     }
 
     h3 {
       margin-top: 25px;
-      color: #3e2415;
+      color: #3b2a20;
     }
 
     ul {
@@ -53,15 +60,31 @@
       margin-top: 40px;
       text-align: center;
       font-size: 0.9em;
-      color: #7b6457;
-      border-top: 1px solid #ddd;
+      color: #5a4a41;
+      border-top: 1px solid #ccc;
       padding-top: 20px;
+    }
+
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="box">
+    <div class="box fade-in-section">
       <h1>Gelatte</h1>
       <p class="tagline">☕ Kopi susu dengan agar hitam yang lembut dan kenyal — sensasi unik dalam satu botol!</p>
 
@@ -85,12 +108,33 @@
       </ul>
 
       <h3>Customer Care</h3>
-      <p>📞 Jika kamu memiliki pertanyaan, keluhan, atau saran, silakan hubungi kami melalui WhatsApp: <strong>+62 812-xxxx-xxxx</strong> (Senin–Jumat, 09.00–17.00)</p>
+      <p>📞 Untuk pertanyaan atau saran, hubungi kami via WhatsApp: <strong>+62 812-xxxx-xxxx</strong> (Senin–Jumat, 09.00–17.00)</p>
 
       <div class="footer">
         &copy; 2025 Gelatte. Semua hak dilindungi.
       </div>
     </div>
   </div>
+
+  <script>
+    // Animasi scroll saat elemen muncul di layar
+    const faders = document.querySelectorAll('.fade-in-section');
+    const appearOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
+  </script>
 </body>
 </html>
